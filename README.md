@@ -74,7 +74,7 @@ Example:
 
 ## How we review ?
 
-Your application will be reviewed by at one of our team member. We do take into consideration your experience level.
+Your application will be reviewed by one of our team member. We do take into consideration your experience level.
 
 **We value quality over feature-completeness**. The goal of this code sample is to help us identify what you consider **production-ready** code. You should consider this code ready for final review with your colleague, i.e. this would be the last step before deploying to production.
 
