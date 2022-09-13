@@ -6,6 +6,7 @@ import (
 	"go-challenege/common"
 	"go-challenege/features/application/domain"
 	"go-challenege/features/application/dto"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type CreateApplicationStore interface {
@@ -26,7 +27,7 @@ func NewCreateApplicationUseCase(store CreateApplicationStore) *createApplicatio
 func (uc *createApplicationUseCase) CreateApplication(ctx context.Context, form *dto.CreateApplicationRequest) error {
 	app, err := uc.store.FindOneByName(ctx, form.Name)
 
-	if err != nil {
+	if err != nil && err != mongo.ErrNoDocuments {
 		return common.ErrCannotGetEntity(domain.Entity, err)
 	}
 

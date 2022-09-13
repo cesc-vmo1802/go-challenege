@@ -18,7 +18,7 @@ import (
 // @Accept  	json
 // @Produce  	json
 // @Security 	ApiKeyAuth
-// @Param 		id			path		int		true		"id"
+// @Param 		id			path		string		true		"id"
 // @Param 		role		body		dto.UpdateApplicationRequest 	true "Update Application"
 // @Success 	200
 // @Failure 	400 		{object} 	common.AppError

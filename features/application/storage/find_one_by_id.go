@@ -10,7 +10,7 @@ import (
 func (st *mongoApplicationStorage) FindOneByID(ctx context.Context, id primitive.ObjectID) (*domain.Application, error) {
 	var app domain.Application
 	err := st.mgo.Database(common.DefaultDatabase).Collection("applications").FindOne(ctx, primitive.M{
-		"id": id,
+		"_id": id,
 	}).Decode(&app)
 	if err != nil {
 		return nil, err

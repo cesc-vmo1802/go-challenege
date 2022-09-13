@@ -7,12 +7,12 @@ import (
 )
 
 func (st *mongoApplicationStorage) DeleteByID(ctx context.Context, id primitive.ObjectID) error {
-	_, err := st.mgo.Database(common.DefaultDatabase).Collection("applications").DeleteOne(ctx, primitive.M{
-		"id": id,
+	result, err := st.mgo.Database(common.DefaultDatabase).Collection("applications").DeleteOne(ctx, primitive.M{
+		"_id": id,
 	})
 
-	if err != nil {
-
+	if err != nil || result.DeletedCount < 0 {
+		return err
 	}
 
 	return nil

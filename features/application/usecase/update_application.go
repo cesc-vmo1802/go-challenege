@@ -34,7 +34,7 @@ func (uc *updateApplicationUseCase) UpdateApplication(ctx context.Context, id pr
 	app.Description = form.Description
 	app.Type = &form.Type
 	app.Enabled = &form.Enabled
-	if err := uc.store.UpdateByID(ctx, app.PK, app); err != nil {
+	if err := uc.store.UpdateByID(ctx, app.ID, app); err != nil {
 		return common.ErrCannotUpdateEntity(domain.Entity, err)
 	}
 	return nil

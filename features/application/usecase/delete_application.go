@@ -23,14 +23,10 @@ func NewDeleteApplicationUseCase(store DeleteApplicationStore) *deleteApplicatio
 }
 
 func (uc *deleteApplicationUseCase) DeleteApplication(ctx context.Context, id primitive.ObjectID) error {
-	app, err := uc.store.FindOneByID(ctx, id)
+	_, err := uc.store.FindOneByID(ctx, id)
 
 	if err != nil {
 		return common.ErrCannotGetEntity(domain.Entity, err)
-	}
-
-	if app != nil {
-		return common.ErrEntityExisting(domain.Entity, err)
 	}
 
 	if err = uc.store.DeleteByID(ctx, id); err != nil {
