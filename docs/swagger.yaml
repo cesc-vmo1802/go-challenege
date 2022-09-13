@@ -37,6 +37,26 @@ definitions:
     - description
     - name
     type: object
+  dto.CreateUserRequest:
+    properties:
+      login_id:
+        type: string
+      password:
+        type: string
+    required:
+    - login_id
+    - password
+    type: object
+  dto.LoginUserRequest:
+    properties:
+      login_id:
+        type: string
+      password:
+        type: string
+    required:
+    - login_id
+    - password
+    type: object
   dto.UpdateApplicationRequest:
     properties:
       description:
@@ -217,6 +237,66 @@ paths:
       summary: Update Application
       tags:
       - Applications
+  /api/v1/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: Login User
+        in: body
+        name: Permission
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.AppError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.AppError'
+      security:
+      - ApiKeyAuth: []
+      summary: Login
+      tags:
+      - Auth
+  /api/v1/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      parameters:
+      - description: Create User
+        in: body
+        name: Permission
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/common.AppError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/common.AppError'
+      security:
+      - ApiKeyAuth: []
+      summary: Register
+      tags:
+      - Auth
 securityDefinitions:
   ApiKeyAuth:
     in: header
