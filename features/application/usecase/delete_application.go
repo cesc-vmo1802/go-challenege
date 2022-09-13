@@ -2,14 +2,14 @@ package usecase
 
 import (
 	"context"
-	"github.com/globalsign/mgo/bson"
 	"go-challenege/common"
 	"go-challenege/features/application/domain"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type DeleteApplicationStore interface {
-	Find(context.Context, bson.ObjectId) (*domain.Application, error)
-	Delete(context.Context, bson.ObjectId) error
+	FindOneByID(ctx context.Context, id primitive.ObjectID) (*domain.Application, error)
+	DeleteByID(ctx context.Context, id primitive.ObjectID) error
 }
 
 type deleteApplicationUseCase struct {
@@ -22,8 +22,8 @@ func NewDeleteApplicationUseCase(store DeleteApplicationStore) *deleteApplicatio
 	}
 }
 
-func (uc *deleteApplicationUseCase) DeleteApplication(ctx context.Context, id bson.ObjectId) error {
-	app, err := uc.store.Find(ctx, id)
+func (uc *deleteApplicationUseCase) DeleteApplication(ctx context.Context, id primitive.ObjectID) error {
+	app, err := uc.store.FindOneByID(ctx, id)
 
 	if err != nil {
 		return common.ErrCannotGetEntity(domain.Entity, err)
@@ -33,7 +33,7 @@ func (uc *deleteApplicationUseCase) DeleteApplication(ctx context.Context, id bs
 		return common.ErrEntityExisting(domain.Entity, err)
 	}
 
-	if err = uc.store.Delete(ctx, id); err != nil {
+	if err = uc.store.DeleteByID(ctx, id); err != nil {
 		return common.ErrCannotDeleteEntity(domain.Entity, err)
 	}
 

@@ -2,15 +2,16 @@ package usecase
 
 import (
 	"context"
-	"github.com/globalsign/mgo/bson"
 	"go-challenege/common"
 	"go-challenege/features/application/domain"
 	"go-challenege/features/application/dto"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type UpdateApplicationStore interface {
-	Find(ctx context.Context, id bson.ObjectId) (*domain.Application, error)
-	Update(ctx context.Context, domain *domain.Application) error
+	FindOneByID(ctx context.Context, id primitive.ObjectID) (*domain.Application, error)
+	UpdateByID(ctx context.Context, id primitive.ObjectID,
+		domain *domain.Application) error
 }
 
 type updateApplicationUseCase struct {
@@ -23,8 +24,8 @@ func NewUpdateApplicationUseCase(store UpdateApplicationStore) *updateApplicatio
 	}
 }
 
-func (uc *updateApplicationUseCase) UpdateApplication(ctx context.Context, id bson.ObjectId, form *dto.UpdateApplicationRequest) error {
-	app, err := uc.store.Find(ctx, id)
+func (uc *updateApplicationUseCase) UpdateApplication(ctx context.Context, id primitive.ObjectID, form *dto.UpdateApplicationRequest) error {
+	app, err := uc.store.FindOneByID(ctx, id)
 	if err != nil {
 		return common.ErrCannotGetEntity(domain.Entity, err)
 	}
@@ -33,7 +34,7 @@ func (uc *updateApplicationUseCase) UpdateApplication(ctx context.Context, id bs
 	app.Description = form.Description
 	app.Type = &form.Type
 	app.Enabled = &form.Enabled
-	if err := uc.store.Update(ctx, app); err != nil {
+	if err := uc.store.UpdateByID(ctx, app.PK, app); err != nil {
 		return common.ErrCannotUpdateEntity(domain.Entity, err)
 	}
 	return nil

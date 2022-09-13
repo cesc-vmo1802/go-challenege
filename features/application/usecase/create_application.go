@@ -9,8 +9,8 @@ import (
 )
 
 type CreateApplicationStore interface {
-	Find(context.Context, string) (*domain.Application, error)
-	Create(context.Context, *domain.Application) error
+	FindOneByName(ctx context.Context, name string) (*domain.Application, error)
+	Create(ctx context.Context, domain *domain.Application) error
 }
 
 type createApplicationUseCase struct {
@@ -24,7 +24,7 @@ func NewCreateApplicationUseCase(store CreateApplicationStore) *createApplicatio
 }
 
 func (uc *createApplicationUseCase) CreateApplication(ctx context.Context, form *dto.CreateApplicationRequest) error {
-	app, err := uc.store.Find(ctx, form.Name)
+	app, err := uc.store.FindOneByName(ctx, form.Name)
 
 	if err != nil {
 		return common.ErrCannotGetEntity(domain.Entity, err)
