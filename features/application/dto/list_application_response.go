@@ -1,6 +1,8 @@
 package dto
 
 type ListApplicationResponse struct {
-	Name        string
-	Description string
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Type        string `json:"type"`
+	Enabled     bool   `json:"enabled"`
 }

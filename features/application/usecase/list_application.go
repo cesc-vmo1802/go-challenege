@@ -5,10 +5,11 @@ import (
 	"go-challenege/common"
 	"go-challenege/features/application/domain"
 	"go-challenege/features/application/dto"
+	"go-challenege/pkg/paging"
 )
 
 type ListApplicationStore interface {
-	List(context.Context) ([]domain.Application, error)
+	List(ctx context.Context, page *paging.Paging, filter *dto.Filter) ([]domain.Application, error)
 }
 
 type listApplicationUseCase struct {
@@ -21,8 +22,8 @@ func NewListApplicationUseCase(store ListApplicationStore) *listApplicationUseCa
 	}
 }
 
-func (uc *listApplicationUseCase) List(ctx context.Context) ([]dto.ListApplicationResponse, error) {
-	apps, err := uc.store.List(ctx)
+func (uc *listApplicationUseCase) List(ctx context.Context, page *paging.Paging, filter *dto.Filter) ([]dto.ListApplicationResponse, error) {
+	apps, err := uc.store.List(ctx, page, filter)
 
 	if err != nil {
 		return nil, common.ErrCannotListEntity(domain.Entity, err)
@@ -30,10 +31,17 @@ func (uc *listApplicationUseCase) List(ctx context.Context) ([]dto.ListApplicati
 
 	var result []dto.ListApplicationResponse
 	for _, app := range apps {
-		result = append(result, dto.ListApplicationResponse{
+		var dRes = dto.ListApplicationResponse{
 			Name:        app.Name,
 			Description: app.Description,
-		})
+		}
+		if app.Type != nil {
+			dRes.Type = *app.Type
+		}
+		if app.Enabled != nil {
+			dRes.Enabled = *app.Enabled
+		}
+		result = append(result, dRes)
 	}
 
 	return result, nil

@@ -27,6 +27,7 @@ func privateRoute(sc app_context.AppCtx) func(e *gin.RouterGroup) {
 		//TODO: need to add some middleware here to protect your api
 		app := e.Group("/applications")
 		{
+			app.GET("", gin_app.ListApplication(sc))
 			app.GET("/:id", gin_app.DetailApplication(sc))
 			app.POST("", gin_app.CreateApplication(sc))
 			app.PUT("/:id", gin_app.UpdateApplication(sc))
