@@ -27,8 +27,15 @@ definitions:
     properties:
       description:
         type: string
+      enabled:
+        type: boolean
       name:
         type: string
+      type:
+        type: string
+    required:
+    - description
+    - name
     type: object
   dto.UpdateApplicationRequest:
     properties:
@@ -89,7 +96,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -117,7 +124,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
@@ -145,7 +152,7 @@ paths:
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       - description: Update Application
         in: body
         name: role
