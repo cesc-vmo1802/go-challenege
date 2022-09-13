@@ -11,6 +11,7 @@ import (
 	"go-challenege/pkg/httpserver"
 	"go-challenege/pkg/i18n"
 	"go-challenege/pkg/logger"
+	"go-challenege/pkg/tokenprovider/jwt"
 )
 
 const (
@@ -78,7 +79,9 @@ func NewServerCommand() *cobra.Command {
 			appI18n, _ := i18n.NewI18n(i18n.NewI18nConfig(viper.GetStringSlice(ServSupportLanguages)))
 			router := httpserver.New(httpCnf, appI18n)
 
-			sc := app_context.NewAppCtx(mgoDB.GetDB())
+			sc := app_context.NewAppCtx(mgoDB.GetDB(),
+				jwt.NewTokenJWTProvider(viper.GetString(AccessTokenExpiry), viper.GetUint(AccessTokenExpiry)),
+				jwt.NewTokenJWTProvider(viper.GetString(RefreshTokenSecret), viper.GetUint(RefreshTokenExpiry)))
 
 			router.AddHandler(v1.SetupRoute(sc))
 			router.Start()

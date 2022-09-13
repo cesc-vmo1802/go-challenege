@@ -29,7 +29,6 @@ type Token struct {
 }
 
 type TokenPayload struct {
-	UserId         uint   `json:"user_id"`
+	UserId         string `json:"user_id"`
 	RefreshTokenId string `json:"refresh_token_id,omitempty"`
-	Roles          []uint `json:"roles"`
 }

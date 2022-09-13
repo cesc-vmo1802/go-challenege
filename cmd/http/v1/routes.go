@@ -7,6 +7,8 @@ import (
 	"go-challenege/app_context"
 	"go-challenege/docs"
 	"go-challenege/features/application/transports/gin_app"
+	"go-challenege/features/auth/transports/gin_auth"
+	"go-challenege/middlewares"
 	"net/http"
 )
 
@@ -18,6 +20,12 @@ func publicRoute(sc app_context.AppCtx) func(e *gin.RouterGroup) {
 			})
 			return
 		})
+
+		auth := e.Group("auth")
+		{
+			auth.POST("/register", gin_auth.Register(sc))
+			auth.POST("/login", gin_auth.Login(sc))
+		}
 	}
 }
 
@@ -25,7 +33,7 @@ func privateRoute(sc app_context.AppCtx) func(e *gin.RouterGroup) {
 	return func(e *gin.RouterGroup) {
 
 		//TODO: need to add some middleware here to protect your api
-		app := e.Group("/applications")
+		app := e.Group("/applications", middlewares.RequiredAuth(sc))
 		{
 			app.GET("", gin_app.ListApplication(sc))
 			app.GET("/:id", gin_app.DetailApplication(sc))
