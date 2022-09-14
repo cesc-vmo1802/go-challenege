@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"github.com/pkg/errors"
 	"go-challenege/common"
 	"go-challenege/features/application/domain"
 	"go-challenege/features/application/dto"
@@ -32,7 +31,7 @@ func (uc *createApplicationUseCase) CreateApplication(ctx context.Context, form 
 	}
 
 	if app != nil {
-		return common.ErrEntityExisting(domain.Entity, errors.New(""))
+		return common.ErrEntityExisting(domain.Entity, nil)
 	}
 
 	createData := domain.FromDTO(form)
