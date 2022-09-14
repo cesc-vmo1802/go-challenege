@@ -7,10 +7,10 @@ services:
     restart: unless-stopped
     command: /bin/sh -c "/app/go-challenege migrate up --config /app/deployment/env/env.docker.yaml && /app/go-challenege serv --config /app/deployment/env/env.docker.yaml"
     volumes:
-      - ./go/go-challenege/deployment/:/app/deployment/
-      - ./go/go-challenege/messages/:/app/messages/
-      - ./go/go-challenege/dbmigration/:/app/dbmigration/
-      - ./go/go-challenege/docs/:/app/docs/
+      - ./deployment/:/app/deployment/
+      - ./messages/:/app/messages/
+      - ./dbmigration/:/app/dbmigration/
+      - ./docs/:/app/docs/
     networks:
       - app_network
     ports:
