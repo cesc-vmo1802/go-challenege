@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Accounting application.",
+    "description": "1.",
+    "enabled": true,
+    "type": "web"
+  },
+  {
+    "name": "Human resource application.",
+    "description": "1.",
+    "enabled": true,
+    "type": "service"
+  }
+]
