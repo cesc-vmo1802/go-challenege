@@ -47,11 +47,11 @@ func (uc *loginUserUseCase) Login(ctx context.Context, form *dto.LoginUserReques
 	}
 
 	accessTok, err := uc.tokProvider.Generate(tokenprovider.TokenPayload{
-		UserId: user.ID.String(),
+		UserId: user.ID.Hex(),
 	})
 
 	refreshTok, err := uc.tokProvider.Generate(tokenprovider.TokenPayload{
-		UserId:         user.ID.String(),
+		UserId:         user.ID.Hex(),
 		RefreshTokenId: user.RefreshTokenID,
 	})
 
