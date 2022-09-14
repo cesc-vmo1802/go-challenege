@@ -16,7 +16,7 @@ func ErrWrongAuthHeader(err error) *common.AppError {
 	return common.NewCustomError(
 		err,
 		fmt.Sprintf("wrong authen header"),
-		fmt.Sprintf("ErrWrongAuthHeader"),
+		fmt.Sprintf("ERR_WRONG_AUTH_HEADER"),
 	)
 }
 
