@@ -80,21 +80,23 @@ func TestCreateApplicationUseCase_CreateApplication(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		uc := NewCreateApplicationUseCase(test.store)
-		form := dto.CreateApplicationRequest{
-			Name:        test.name,
-			Description: test.description,
-			Enabled:     test.enabled,
-			Type:        test.typ,
-		}
+		t.Run(test.testName, func(t *testing.T) {
+			uc := NewCreateApplicationUseCase(test.store)
+			form := dto.CreateApplicationRequest{
+				Name:        test.name,
+				Description: test.description,
+				Enabled:     test.enabled,
+				Type:        test.typ,
+			}
 
-		err := uc.CreateApplication(context.TODO(), &form)
-		var msg string
-		if err != nil {
-			msg = err.Error()
-		}
-		if test.expectedError(err).Log != msg {
-			t.Errorf("Unexpected error: %v", msg)
-		}
+			err := uc.CreateApplication(context.TODO(), &form)
+			var msg string
+			if err != nil {
+				msg = err.Error()
+			}
+			if test.expectedError(err).Log != msg {
+				t.Errorf("Unexpected error: %v", msg)
+			}
+		})
 	}
 }

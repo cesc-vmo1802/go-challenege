@@ -52,16 +52,17 @@ func TestListApplicationUseCase_List(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		uc := NewListApplicationUseCase(test.store)
+		t.Run(test.testName, func(t *testing.T) {
+			uc := NewListApplicationUseCase(test.store)
 
-		_, err := uc.List(context.TODO(), test.page, test.filter)
-		var msg string
-		if err != nil {
-			msg = err.Error()
-		}
-		if test.expectedError(err).Log != msg {
-			t.Errorf("Unexpected error: %v", msg)
-		}
-
+			_, err := uc.List(context.TODO(), test.page, test.filter)
+			var msg string
+			if err != nil {
+				msg = err.Error()
+			}
+			if test.expectedError(err).Log != msg {
+				t.Errorf("Unexpected error: %v", msg)
+			}
+		})
 	}
 }

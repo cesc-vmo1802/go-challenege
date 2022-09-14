@@ -43,16 +43,18 @@ func TestDetailApplicationUseCase_DetailApplication(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		uc := NewDetailApplicationUseCase(test.store)
+		t.Run(test.testName, func(t *testing.T) {
+			uc := NewDetailApplicationUseCase(test.store)
 
-		_, err := uc.DetailApplication(context.TODO(), test.id)
-		var msg string
-		if err != nil {
-			msg = err.Error()
-		}
-		if test.expectedError(err).Log != msg {
-			t.Errorf("Unexpected error: %v", msg)
-		}
+			_, err := uc.DetailApplication(context.TODO(), test.id)
+			var msg string
+			if err != nil {
+				msg = err.Error()
+			}
+			if test.expectedError(err).Log != msg {
+				t.Errorf("Unexpected error: %v", msg)
+			}
+		})
 	}
 }
 
@@ -85,13 +87,15 @@ func TestDetailApplicationUseCase_FoundDetailApplication(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		uc := NewDetailApplicationUseCase(test.store)
+		t.Run(test.testName, func(t *testing.T) {
+			uc := NewDetailApplicationUseCase(test.store)
 
-		data, _ := uc.DetailApplication(context.TODO(), test.id)
+			data, _ := uc.DetailApplication(context.TODO(), test.id)
 
-		assert.Equal(t, data.Name, "Demo")
-		assert.Equal(t, data.Description, "Demo Description")
-		assert.Equal(t, data.Enabled, false)
-		assert.Equal(t, data.Type, "Type 1")
+			assert.Equal(t, data.Name, "Demo")
+			assert.Equal(t, data.Description, "Demo Description")
+			assert.Equal(t, data.Enabled, false)
+			assert.Equal(t, data.Type, "Type 1")
+		})
 	}
 }

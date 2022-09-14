@@ -91,21 +91,23 @@ func TestUpdateApplicationUseCase_UpdateApplication(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		uc := NewUpdateApplicationUseCase(test.store)
+		t.Run(test.testName, func(t *testing.T) {
+			uc := NewUpdateApplicationUseCase(test.store)
 
-		var form dto.UpdateApplicationRequest
-		form.Name = test.name
-		form.Description = test.description
-		form.Type = test.typ
-		form.Enabled = test.enabled
+			var form dto.UpdateApplicationRequest
+			form.Name = test.name
+			form.Description = test.description
+			form.Type = test.typ
+			form.Enabled = test.enabled
 
-		err := uc.UpdateApplication(context.TODO(), test.id, &form)
-		var msg string
-		if err != nil {
-			msg = err.Error()
-		}
-		if test.expectedError(err).Log != msg {
-			t.Errorf("Unexpected error: %v", msg)
-		}
+			err := uc.UpdateApplication(context.TODO(), test.id, &form)
+			var msg string
+			if err != nil {
+				msg = err.Error()
+			}
+			if test.expectedError(err).Log != msg {
+				t.Errorf("Unexpected error: %v", msg)
+			}
+		})
 	}
 }

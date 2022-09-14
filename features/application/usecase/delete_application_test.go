@@ -78,15 +78,17 @@ func TestDeleteApplicationUseCase_DeleteApplication(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		uc := NewDeleteApplicationUseCase(test.store)
+		t.Run(test.testName, func(t *testing.T) {
+			uc := NewDeleteApplicationUseCase(test.store)
 
-		err := uc.DeleteApplication(context.TODO(), test.id)
-		var msg string
-		if err != nil {
-			msg = err.Error()
-		}
-		if test.expectedError(err).Log != msg {
-			t.Errorf("Unexpected error: %v", msg)
-		}
+			err := uc.DeleteApplication(context.TODO(), test.id)
+			var msg string
+			if err != nil {
+				msg = err.Error()
+			}
+			if test.expectedError(err).Log != msg {
+				t.Errorf("Unexpected error: %v", msg)
+			}
+		})
 	}
 }
